@@ -21,17 +21,17 @@ public class Notice {
 	@Column(name = "notice_details")
 	private String noticeDetails;
 
-	@Column(name = "notic_beg_dt")
-	private Date noticBegDt;
+	@Column(name = "notice_begin_date")
+	private Date noticeBeginDate;
 	
-	@Column(name = "notic_end_dt")
-	private Date noticEndDt;
+	@Column(name = "notice_end_date")
+	private Date noticeEndDate;
 	
-	@Column(name = "create_dt")
-	private Date createDt;
+	@Column(name = "created_at")
+	private Date createdAt;
 	
-	@Column(name = "update_dt")
-	private Date updateDt;
+	@Column(name = "updated_at")
+	private Date updatedAt;
 
 	public int getNoticeId() {
 		return noticeId;
@@ -57,35 +57,35 @@ public class Notice {
 		this.noticeDetails = noticeDetails;
 	}
 
-	public Date getNoticBegDt() {
-		return noticBegDt;
+	public Date getNoticeBeginDate() {
+		return noticeBeginDate;
 	}
 
-	public void setNoticBegDt(Date noticBegDt) {
-		this.noticBegDt = noticBegDt;
+	public void setNoticeBeginDate(Date noticBegDt) {
+		this.noticeBeginDate = noticBegDt;
 	}
 
-	public Date getNoticEndDt() {
-		return noticEndDt;
+	public Date getNoticeEndDate() {
+		return noticeEndDate;
 	}
 
-	public void setNoticEndDt(Date noticEndDt) {
-		this.noticEndDt = noticEndDt;
+	public void setNoticeEndDate(Date noticEndDt) {
+		this.noticeEndDate = noticEndDt;
 	}
 
-	public Date getCreateDt() {
-		return createDt;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setCreateDt(Date createDt) {
-		this.createDt = createDt;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
-	public Date getUpdateDt() {
-		return updateDt;
+	public Date getUpdatedAt() {
+		return updatedAt;
 	}
 
-	public void setUpdateDt(Date updateDt) {
-		this.updateDt = updateDt;
+	public void setUpdatedAt(Date updateDt) {
+		this.updatedAt = updateDt;
 	}	
 }

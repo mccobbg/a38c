@@ -22,6 +22,7 @@ import lombok.AllArgsConstructor;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @AllArgsConstructor
@@ -58,7 +59,9 @@ public class LoginController {
         try {
             String hashPwd = passwordEncoder.encode(user.getPassword());
             user.setPassword(hashPwd);
-            user.setCreatedDt(new Date(System.currentTimeMillis()));
+            UUID uuid = UUID.randomUUID();
+            user.setUserId(uuid.toString());
+            user.setCreatedAt(new Date(System.currentTimeMillis()));
             savedCustomer = userRepository.save(user);
             if (savedCustomer.getEmail() != null) {
                 response = ResponseEntity
@@ -84,10 +87,9 @@ public class LoginController {
                 );
 
             User user = (User) authenticate.getPrincipal();
-            String username = user.getEmail();
-            String jwtToken = JwtHelper.createJWT(username);
+            String jwtToken = JwtHelper.createJWT(user);
 
-            LoginResponse loginResponse = new LoginResponse(jwtToken, username);
+            LoginResponse loginResponse = new LoginResponse(jwtToken, user.getEmail());
 
             return ResponseEntity.ok()
                 .body(loginResponse);

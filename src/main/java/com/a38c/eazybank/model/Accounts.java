@@ -1,15 +1,18 @@
 package com.a38c.eazybank.model;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+import java.sql.Date;
 
 @Entity
+@Table(name="accounts")
 public class Accounts {
 
-	@Column(name = "customer_id")
-	private int customerId;
+	@Column(name = "user_id")
+	private int userId;
 
 	@Id
 	@Column(name="account_number")
@@ -21,15 +24,17 @@ public class Accounts {
 	@Column(name = "branch_address")
 	private String branchAddress;
 
-	@Column(name = "create_dt")
-	private String createDt;
+	@Column(name = "created_at")
+	private Date createdAt;
 	
+	@Column(name = "updated_at")
+	private Date updatedAt;
 	
-	public int getCustomerId() {
-		return customerId;
+	public int getUserId() {
+		return userId;
 	}
-	public void setCustomerId(int customerId) {
-		this.customerId = customerId;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 	public long getAccountNumber() {
 		return accountNumber;
@@ -49,11 +54,17 @@ public class Accounts {
 	public void setBranchAddress(String branchAddress) {
 		this.branchAddress = branchAddress;
 	}
-	public String getCreateDt() {
-		return createDt;
+	public Date getCreateAt() {
+		return createdAt;
 	}
-	public void setCreateDt(String createDt) {
-		this.createDt = createDt;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 	
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
 }

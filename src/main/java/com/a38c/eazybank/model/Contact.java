@@ -22,11 +22,10 @@ public class Contact {
 	private String contactEmail;
 	
 	private String subject;
-
 	private String message;
 
-	@Column(name = "create_dt")
-	private Date createDt;
+	@Column(name = "created_at")
+	private Date createdAt;
 
 	public String getContactId() {
 		return contactId;
@@ -68,12 +67,12 @@ public class Contact {
 		this.message = message;
 	}
 
-	public Date getCreateDt() {
-		return createDt;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setCreateDt(Date createDt) {
-		this.createDt = createDt;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 	
 }

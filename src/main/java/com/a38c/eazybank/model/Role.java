@@ -14,14 +14,14 @@ import jakarta.persistence.Table;
 public class Role {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Integer id;
+	@Column(name = "role_id")
+  private Integer roleId;
 
   @Enumerated(EnumType.STRING)
   @Column(length = 20)
   private ERole name;
 
   public Role() {
-
   }
 
   public Role(ERole name) {
@@ -29,11 +29,11 @@ public class Role {
   }
 
   public Integer getId() {
-    return id;
+    return roleId;
   }
 
   public void setId(Integer id) {
-    this.id = id;
+    this.roleId = id;
   }
 
   public ERole getName() {

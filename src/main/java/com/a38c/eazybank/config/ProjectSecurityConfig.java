@@ -3,6 +3,9 @@ package com.a38c.eazybank.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -15,6 +18,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -23,6 +27,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import com.a38c.eazybank.Util.Argon2Helper;
 import com.a38c.eazybank.Util.JwtHelper;
 import com.a38c.eazybank.filter.JwtTokenValidatorFilter;
+import com.a38c.eazybank.filter.CsrfCookieFilter;
 import com.a38c.eazybank.filter.JwtAuthenticationEntryPoint;
 import com.a38c.eazybank.repository.UserRepository;
 import com.a38c.eazybank.services.UserService;
@@ -30,22 +35,28 @@ import com.a38c.eazybank.services.UserService;
 import lombok.AllArgsConstructor;
 
 import java.util.Collections;
+import javax.sql.DataSource;
 
 @ComponentScan(basePackages = "com.a38c.eazybank")
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 @AllArgsConstructor
+@PropertySource("persistence-sqlite.properties")
 public class ProjectSecurityConfig {
 
     private final UserRepository userRepository;
+    private final Environment env;
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
         requestHandler.setCsrfRequestAttributeName("_csrf");
         return http
-            .csrf(csrf -> csrf.disable())
+            .csrf(csrf -> csrf.csrfTokenRequestHandler(requestHandler).ignoringRequestMatchers("/contact","/register")
+                            .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+            .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
+            .addFilterBefore(new JwtTokenValidatorFilter(userService()), BasicAuthenticationFilter.class)
             .exceptionHandling(
                 exception -> exception.authenticationEntryPoint(authenticationEntryPoint())
                         .accessDeniedHandler(accessDeniedHandler()))
@@ -59,59 +70,10 @@ public class ProjectSecurityConfig {
 
             .authenticationProvider(authenticationProvider())
             .cors(cors -> corsConfigurationSource())
-            // .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
-            .addFilterBefore(new JwtTokenValidatorFilter(userService()), BasicAuthenticationFilter.class)
-                    // .and().formLogin()
-                    // .and().httpBasic()
+                    // .formLogin()
+                    // .httpBasic()
             .build();
     }
-
-    /*
- 
-
-     /*
-	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		return http
-				.csrf(AbstractHttpConfigurer::disable)
-				.authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
-				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
-				.exceptionHandling(
-						(ex) -> ex.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
-								.accessDeniedHandler(new BearerTokenAccessDeniedHandler()))
-				.build();
-	}
-
-	/*
-	 * This was added via PR (thanks to @ch4mpy)
-	 * This will allow the /token endpoint to use basic auth and everything else uses the SFC above
-	 */
-	// @Order(Ordered.HIGHEST_PRECEDENCE)
-	// @Bean
-	// SecurityFilterChain tokenSecurityFilterChain(HttpSecurity http) throws Exception {
-	// 	return http
-	// 			.securityMatcher(new AntPathRequestMatcher("/token"))
-	// 			.authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
-	// 			.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-	// 			.csrf(AbstractHttpConfigurer::disable)
-	// 			.exceptionHandling(ex -> {
-	// 				ex.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint());
-	// 				ex.accessDeniedHandler(new BearerTokenAccessDeniedHandler());
-	// 			})
-	// 			.httpBasic(withDefaults())
-	// 			.build();
-	//}
-
-    // @Bean
-    // public DataSource dataSource() {
-    //     final DriverManagerDataSource dataSource = new DriverManagerDataSource();
-    //     dataSource.setDriverClassName(env.getProperty("driverClassName"));
-    //     dataSource.setUrl(env.getProperty("url"));
-    //     dataSource.setUsername(env.getProperty("user"));
-    //     dataSource.setPassword(env.getProperty("password"));
-    //     return dataSource;
-    // }
 
     @Bean
     public AuthenticationEntryPoint authenticationEntryPoint(){
@@ -145,6 +107,16 @@ public class ProjectSecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
+    }
+
+    @Bean
+    public DataSource dataSource() {
+        final DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(env.getProperty("driverClassName", ""));
+        dataSource.setUrl(env.getProperty("url"));
+        dataSource.setUsername(env.getProperty("user"));
+        dataSource.setPassword(env.getProperty("password"));
+        return dataSource;
     }
 
     @Bean

@@ -15,8 +15,8 @@ public class Cards {
 	@Column(name = "card_id")
 	private int cardId;
 
-	@Column(name = "customer_id")
-	private int customerId;
+	@Column(name = "user_id")
+	private int userId;
 
 	@Column(name = "card_number")
 	private String cardNumber;
@@ -25,16 +25,19 @@ public class Cards {
 	private String cardType;
 
 	@Column(name = "total_limit")
-	private int totalLimit;
+	private float totalLimit;
 
 	@Column(name = "amount_used")
-	private int amountUsed;
+	private float amountUsed;
 
 	@Column(name = "available_amount")
-	private int availableAmount;
+	private float availableAmount;
 
-	@Column(name = "create_dt")
-	private Date createDt;
+	@Column(name = "created_at")
+	private Date createdAt;
+
+	@Column(name = "updated_at")
+	private Date updatedAt;
 
 	public int getCardId() {
 		return cardId;
@@ -44,12 +47,12 @@ public class Cards {
 		this.cardId = cardId;
 	}
 
-	public int getCustomerId() {
-		return customerId;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setCustomerId(int customerId) {
-		this.customerId = customerId;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public String getCardNumber() {
@@ -68,15 +71,15 @@ public class Cards {
 		this.cardType = cardType;
 	}
 
-	public int getTotalLimit() {
+	public float getTotalLimit() {
 		return totalLimit;
 	}
 
-	public void setTotalLimit(int totalLimit) {
+	public void setTotalLimit(float totalLimit) {
 		this.totalLimit = totalLimit;
 	}
 
-	public int getAmountUsed() {
+	public float getAmountUsed() {
 		return amountUsed;
 	}
 
@@ -84,7 +87,7 @@ public class Cards {
 		this.amountUsed = amountUsed;
 	}
 
-	public int getAvailableAmount() {
+	public float getAvailableAmount() {
 		return availableAmount;
 	}
 
@@ -92,12 +95,20 @@ public class Cards {
 		this.availableAmount = availableAmount;
 	}
 
-	public Date getCreateDt() {
-		return createDt;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setCreateDt(Date createDt) {
-		this.createDt = createDt;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 	
 }

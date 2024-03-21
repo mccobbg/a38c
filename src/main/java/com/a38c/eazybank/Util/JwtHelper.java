@@ -1,7 +1,9 @@
 package com.a38c.eazybank.Util;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import com.a38c.eazybank.constants.SecurityConstants;
 import com.a38c.eazybank.model.User;
@@ -22,41 +24,25 @@ public class JwtHelper {
 
     public JwtHelper() {
         algorithm = Algorithm.HMAC256(SecurityConstants.JWT_KEY);
-
         verifier = JWT.require(algorithm)
           .withIssuer(SecurityConstants.ISSUER)
           .build();
     }
 
-    public static String createJWT(String username) {
+    public static String createJWT(User user) {
+        List<String> roles = user.getRoles().stream()
+                .map(role -> role.getName().name())
+                .collect(Collectors.toList());
         String jwtToken = JWT.create()
           .withIssuer(SecurityConstants.ISSUER)
-          .withSubject(username)
-          //.withClaim(DATA_CLAIM, DATA)
+          .withSubject(user.getEmail())
+          .withClaim("userId", user.getUserId())
+          .withClaim("roles", roles)
           .withIssuedAt(new Date())
           .withExpiresAt(new Date(System.currentTimeMillis() + TOKEN_VALIDITY_IN_MILLIS))
           .withJWTId(UUID.randomUUID().toString())
           .withNotBefore(new Date(System.currentTimeMillis() + 1000L))
           .sign(algorithm);
-
-          /*
-            if (OAuth2TokenType.ACCESS_TOKEN.equals(context.getTokenType())) { 
-				context.getClaims().claims((claims) -> { 
-					Set<String> roles = AuthorityUtils.authorityListToSet(context.getPrincipal().getAuthorities())
-							.stream()
-							.map(c -> c.replaceFirst("^ROLE_", ""))
-							.collect(Collectors.collectingAndThen(Collectors.toSet(), Collections::unmodifiableSet)); 
-					claims.put("roles", roles); 
-				});
-			}
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            //objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS,false);
-
-            Car car = new Car("yellow", "renault");
-            // objectMapper.writeValue(new File("target/car.json"), car);
-            String carAsString = objectMapper.writeValueAsString(car);
-           */
 
         return jwtToken;
     }
@@ -82,7 +68,6 @@ public class JwtHelper {
     }
 
     public static User parseUser(DecodedJWT decodedJWT) {
-
         String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
         String userId = decodedJWT.getClaim("userId").asString();
         String subject = decodedJWT.getSubject();
@@ -104,10 +89,21 @@ public class JwtHelper {
     }
 
     public static void main(String args[]) throws InterruptedException {
-
         new JwtHelper();
 
-        String jwtToken = createJWT("test@example.com`");
+        User user = new User();
+        user.setEmail("bigjwt@example.com");
+        user.setId(1L);
+        user.setCreatedAt(new Date());
+        user.setUpdatedAt(null);
+        user.addRole("USER");
+        user.setFirstName("George");
+        user.setLastName("Morose");
+        user.setPassword("123465");
+        UUID uuid = UUID.randomUUID();
+        user.setUserId(uuid.toString());
+
+        String jwtToken = createJWT(user);
         System.out.println("Created JWT : " + jwtToken);
 
         Thread.sleep(1000L);

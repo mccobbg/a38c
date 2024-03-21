@@ -18,10 +18,10 @@ public class AccountTransactions {
 	@Column(name="account_number")
 	private long accountNumber;
 	
-	@Column(name = "customer_id")
-	private int customerId;
+	@Column(name = "user_id")
+	private int userId;
 	
-	@Column(name="transaction_dt")
+	@Column(name="transaction_date")
 	private Date transactionDt;
 	
 	@Column(name = "transaction_summary")
@@ -30,14 +30,14 @@ public class AccountTransactions {
 	@Column(name="transaction_type")
 	private String transactionType;
 	
-	@Column(name = "transaction_amt")
-	private int transactionAmt;
+	@Column(name = "amount")
+	private float amount;
 	
 	@Column(name = "closing_balance")
-	private int closingBalance;
+	private float closingBalance;
 	
-	@Column(name = "create_dt")
-	private String createDt;
+	@Column(name = "created_at")
+	private Date createdAt;
 
 	public String getTransactionId() {
 		return transactionId;
@@ -55,12 +55,12 @@ public class AccountTransactions {
 		this.accountNumber = accountNumber;
 	}
 
-	public int getCustomerId() {
-		return customerId;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setCustomerId(int customerId) {
-		this.customerId = customerId;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public Date getTransactionDt() {
@@ -87,27 +87,27 @@ public class AccountTransactions {
 		this.transactionType = transactionType;
 	}
 
-	public int getTransactionAmt() {
-		return transactionAmt;
+	public float getAmount() {
+		return amount;
 	}
 
-	public void setTransactionAmt(int transactionAmt) {
-		this.transactionAmt = transactionAmt;
+	public void setAmount(float transactionAmt) {
+		this.amount = transactionAmt;
 	}
 
-	public int getClosingBalance() {
+	public float getClosingBalance() {
 		return closingBalance;
 	}
 
-	public void setClosingBalance(int closingBalance) {
+	public void setClosingBalance(float closingBalance) {
 		this.closingBalance = closingBalance;
 	}
 
-	public String getCreateDt() {
-		return createDt;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setCreateDt(String createDt) {
-		this.createDt = createDt;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 }

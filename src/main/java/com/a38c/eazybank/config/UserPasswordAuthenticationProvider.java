@@ -10,14 +10,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import com.a38c.eazybank.Util.Argon2Helper;
-import com.a38c.eazybank.model.Role;
 import com.a38c.eazybank.model.User;
 import com.a38c.eazybank.repository.UserRepository;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class UserPasswordAuthenticationProvider implements AuthenticationProvider {
@@ -38,20 +35,17 @@ public class UserPasswordAuthenticationProvider implements AuthenticationProvide
         if (users.size() == 0) {
             throw new BadCredentialsException("No user registered with this details!");
         }
+        User user = users.get(0);
         boolean verified = false;
         try {
-            verified = passwordEncoder.verify(pwd, users.get(0).getPassword());
+            verified = passwordEncoder.verify(pwd, user.getPassword());
         } catch (Exception e) {
             throw new BadCredentialsException("Invalid password!");
         }
         if (verified) {
-            List<GrantedAuthority> authorities = new ArrayList<>();
-            Set<Role> roles = users.get(0).getRoles();
-            Iterator<Role> rolesIt = roles.iterator();
-            while (rolesIt.hasNext()) {
-                Role role = rolesIt.next();
-                authorities.add(new SimpleGrantedAuthority(role.toString()));
-            }
+            List<GrantedAuthority> authorities = user.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName().name()))
+                .collect(Collectors.toList());
             
             return new UsernamePasswordAuthenticationToken(username, pwd, authorities);
         } else {

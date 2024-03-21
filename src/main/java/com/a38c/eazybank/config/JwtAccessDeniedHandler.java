@@ -7,6 +7,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
+import com.a38c.eazybank.constants.ApplicationConstants;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,7 +31,7 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
             //   + request.getRequestURI());
         }
 
-        response.sendRedirect(request.getContextPath() + "/accessDenied");
+        response.sendError(HttpServletResponse.SC_FORBIDDEN, ApplicationConstants.ERROR_403_MSG);
     }
 
 }

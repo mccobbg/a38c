@@ -15,26 +15,29 @@ public class Loans {
 	@Column(name = "loan_number")
 	private int loanNumber;
 	
-	@Column(name = "customer_id")
-	private int customerId;
+	@Column(name = "user_id")
+	private String userId;
 	
-	@Column(name="start_dt")
-	private Date startDt;
+	@Column(name="start_date")
+	private Date startDate;
 	
 	@Column(name = "loan_type")
 	private String loanType;
 	
 	@Column(name = "total_loan")
-	private int totalLoan;
+	private float totalLoan;
 	
 	@Column(name = "amount_paid")
-	private int amountPaid;
+	private float amountPaid;
 	
 	@Column(name = "outstanding_amount")
-	private int outstandingAmount;
+	private float outstandingAmount;
 	
-	@Column(name = "create_dt")
-	private String createDt;
+	@Column(name = "created_at")
+	private Date createdAt;
+
+	@Column(name = "updated_at")
+	private Date updatedAt;
 
 	public int getLoanNumber() {
 		return loanNumber;
@@ -44,20 +47,20 @@ public class Loans {
 		this.loanNumber = loanNumber;
 	}
 
-	public int getCustomerId() {
-		return customerId;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setCustomerId(int customerId) {
-		this.customerId = customerId;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
-	public Date getStartDt() {
-		return startDt;
+	public Date getStartDate() {
+		return startDate;
 	}
 
-	public void setStartDt(Date startDt) {
-		this.startDt = startDt;
+	public void setStartDt(Date startDate) {
+		this.startDate = startDate;
 	}
 
 	public String getLoanType() {
@@ -68,36 +71,43 @@ public class Loans {
 		this.loanType = loanType;
 	}
 
-	public int getTotalLoan() {
+	public float getTotalLoan() {
 		return totalLoan;
 	}
 
-	public void setTotalLoan(int totalLoan) {
+	public void setTotalLoan(float totalLoan) {
 		this.totalLoan = totalLoan;
 	}
 
-	public int getAmountPaid() {
+	public float getAmountPaid() {
 		return amountPaid;
 	}
 
-	public void setAmountPaid(int amountPaid) {
+	public void setAmountPaid(float amountPaid) {
 		this.amountPaid = amountPaid;
 	}
 
-	public int getOutstandingAmount() {
+	public float getOutstandingAmount() {
 		return outstandingAmount;
 	}
 
-	public void setOutstandingAmount(int outstandingAmount) {
+	public void setOutstandingAmount(float outstandingAmount) {
 		this.outstandingAmount = outstandingAmount;
 	}
 
-	public String getCreateDt() {
-		return createDt;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setCreateDt(String createDt) {
-		this.createDt = createDt;
+	public void setCreateDt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
-	
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
 }
