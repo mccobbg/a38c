@@ -37,7 +37,7 @@ public class JwtHelper {
           .withSubject(user.getEmail())
           .withClaim("userId", user.getUserId())
           .withClaim("roles", roles)
-          .withIssuedAt(new Date())
+          .withIssuedAt(new Date(System.currentTimeMillis()))
           .withExpiresAt(new Date(System.currentTimeMillis() + TOKEN_VALIDITY_IN_MILLIS))
           .withJWTId(UUID.randomUUID().toString())
           .withNotBefore(new Date(System.currentTimeMillis() + 1000L))
@@ -93,7 +93,7 @@ public class JwtHelper {
         User user = new User();
         user.setEmail("bigjwt@example.com");
         user.setId(1L);
-        user.setCreatedAt(new Date());
+        user.setCreatedAt(new java.sql.Date(System.currentTimeMillis()));
         user.setUpdatedAt(null);
         user.setRole("USER");
         user.setFirstName("George");
