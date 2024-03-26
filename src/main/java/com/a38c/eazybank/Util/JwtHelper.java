@@ -1,9 +1,9 @@
-package com.a38c.eazybank.Util;
+package com.a38c.eazybank.util;
 
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
 
 import com.a38c.eazybank.constants.SecurityConstants;
 import com.a38c.eazybank.model.User;
@@ -30,9 +30,8 @@ public class JwtHelper {
     }
 
     public static String createJWT(User user) {
-        List<String> roles = user.getRoles().stream()
-                .map(role -> role.getName().name())
-                .collect(Collectors.toList());
+        List<String> roles = new ArrayList<String>();
+        roles.add(user.getRole());
         String jwtToken = JWT.create()
           .withIssuer(SecurityConstants.ISSUER)
           .withSubject(user.getEmail())
@@ -74,7 +73,7 @@ public class JwtHelper {
         User u = new User();
         u.setEmail(subject);
         u.setUserId(userId);
-        u.setRoles(roles);
+        u.setRole(roles[0]);
         return u;
     }
 
@@ -96,7 +95,7 @@ public class JwtHelper {
         user.setId(1L);
         user.setCreatedAt(new Date());
         user.setUpdatedAt(null);
-        user.addRole("USER");
+        user.setRole("USER");
         user.setFirstName("George");
         user.setLastName("Morose");
         user.setPassword("123465");

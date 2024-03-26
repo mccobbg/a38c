@@ -1,8 +1,6 @@
 package com.a38c.eazybank.model;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -10,18 +8,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-
 
 @Entity
 @NoArgsConstructor
@@ -57,13 +50,9 @@ public class User {
     private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String password;
+    private String password; 
 
-   @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_roles", 
-             joinColumns = @JoinColumn(name = "user_id"),
-             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<Role>();   
+    private String role;
 
     public Long getId() {
         return id;
@@ -121,7 +110,7 @@ public class User {
         this.createdAt = createdDt;
     }
 
-    public Date getUpdatedDt() {
+    public Date getUpdatedAt() {
         return updatedAt;
     }
 
@@ -137,23 +126,15 @@ public class User {
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public String getRole() {
+        return role;
     }
 
-    public void addRole(String roleString) {
-        Role role = new Role(ERole.valueOf(roleString));
-        roles.add(role);
+    public void setRole(String role) {
+        this.role = role.toUpperCase();
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-    public void setRoles(String[] roleStrings) {
-        roles = new HashSet<Role>(); 
-        for (String roleString : roleStrings) {
-            addRole(roleString);
-        }
+    public void setRole(ERole role) {
+        this.role = role.name();
     }
 }

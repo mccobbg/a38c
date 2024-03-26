@@ -1,8 +1,8 @@
 package com.a38c.eazybank.filter;
 
-import com.a38c.eazybank.Util.JwtHelper;
 import com.a38c.eazybank.constants.SecurityConstants;
 import com.a38c.eazybank.services.UserService;
+import com.a38c.eazybank.util.JwtHelper;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
 import jakarta.servlet.FilterChain;

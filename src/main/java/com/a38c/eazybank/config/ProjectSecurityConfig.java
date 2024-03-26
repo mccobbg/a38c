@@ -24,13 +24,13 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.a38c.eazybank.Util.Argon2Helper;
-import com.a38c.eazybank.Util.JwtHelper;
 import com.a38c.eazybank.filter.JwtTokenValidatorFilter;
 import com.a38c.eazybank.filter.CsrfCookieFilter;
 import com.a38c.eazybank.filter.JwtAuthenticationEntryPoint;
 import com.a38c.eazybank.repository.UserRepository;
 import com.a38c.eazybank.services.UserService;
+import com.a38c.eazybank.util.Argon2Helper;
+import com.a38c.eazybank.util.JwtHelper;
 
 import lombok.AllArgsConstructor;
 

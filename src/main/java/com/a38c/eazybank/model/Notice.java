@@ -12,8 +12,8 @@ public class Notice {
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO,generator="native")
 	@GenericGenerator(name = "native",strategy = "native")
-	@Column(name = "notice_id")
-	private int noticeId;
+	@Column(name = "id")
+	private int id;
 
 	@Column(name = "notice_summary")
 	private String noticeSummary;
@@ -33,12 +33,12 @@ public class Notice {
 	@Column(name = "updated_at")
 	private Date updatedAt;
 
-	public int getNoticeId() {
-		return noticeId;
+	public int getId() {
+		return id;
 	}
 
-	public void setNoticeId(int noticeId) {
-		this.noticeId = noticeId;
+	public void setId(int noticeId) {
+		this.id = noticeId;
 	}
 
 	public String getNoticeSummary() {

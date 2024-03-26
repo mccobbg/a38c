@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.a38c.eazybank.Util.Argon2Helper;
-import com.a38c.eazybank.Util.JwtHelper;
 import com.a38c.eazybank.model.User;
 import com.a38c.eazybank.payload.request.LoginRequest;
 import com.a38c.eazybank.payload.response.LoginResponse;
 import com.a38c.eazybank.repository.UserRepository;
+import com.a38c.eazybank.util.Argon2Helper;
+import com.a38c.eazybank.util.JwtHelper;
 
 import lombok.AllArgsConstructor;
 

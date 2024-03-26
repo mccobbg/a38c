@@ -9,12 +9,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
-import com.a38c.eazybank.Util.Argon2Helper;
 import com.a38c.eazybank.model.User;
 import com.a38c.eazybank.repository.UserRepository;
+import com.a38c.eazybank.util.Argon2Helper;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class UserPasswordAuthenticationProvider implements AuthenticationProvider {
@@ -43,10 +43,8 @@ public class UserPasswordAuthenticationProvider implements AuthenticationProvide
             throw new BadCredentialsException("Invalid password!");
         }
         if (verified) {
-            List<GrantedAuthority> authorities = user.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName().name()))
-                .collect(Collectors.toList());
-            
+            List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+            authorities.add(new SimpleGrantedAuthority(user.getRole()));         
             return new UsernamePasswordAuthenticationToken(username, pwd, authorities);
         } else {
             throw new BadCredentialsException("Invalid password!");

@@ -1,4 +1,4 @@
-package com.a38c.eazybank.Util;
+package com.a38c.eazybank.util;
 
 import java.io.IOException;
 import java.util.HashMap;

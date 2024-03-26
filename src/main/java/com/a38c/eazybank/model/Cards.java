@@ -13,7 +13,7 @@ public class Cards {
 	@GeneratedValue(strategy= GenerationType.AUTO,generator="native")
 	@GenericGenerator(name = "native",strategy = "native")
 	@Column(name = "card_id")
-	private int cardId;
+	private int id;
 
 	@Column(name = "user_id")
 	private int userId;
@@ -39,12 +39,12 @@ public class Cards {
 	@Column(name = "updated_at")
 	private Date updatedAt;
 
-	public int getCardId() {
-		return cardId;
+	public int getId() {
+		return id;
 	}
 
-	public void setCardId(int cardId) {
-		this.cardId = cardId;
+	public void setId(int cardId) {
+		this.id = cardId;
 	}
 
 	public int getUserId() {
