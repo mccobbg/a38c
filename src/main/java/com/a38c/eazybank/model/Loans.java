@@ -3,6 +3,8 @@ package com.a38c.eazybank.model;
 import java.sql.Date;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
@@ -15,6 +17,7 @@ public class Loans {
 	@Column(name = "loan_number")
 	private long loanNumber;
 	
+	@NotNull
 	@Column(name = "user_id")
 	private String userId;
 	

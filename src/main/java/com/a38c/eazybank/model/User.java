@@ -1,6 +1,6 @@
 package com.a38c.eazybank.model;
 
-import java.util.Date;
+import java.sql.Date;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -13,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -27,6 +28,7 @@ public class User {
     @Column(name = "id")
     private Long id;
 
+    @NotNull
     @Column(name = "user_id")
     private String userId;
 
@@ -46,12 +48,14 @@ public class User {
     private String mobileNumber;
 
     @NotBlank
+    @NotNull
     @Email
     private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password; 
 
+    @NotNull
     private String role;
 
     public Long getId() {

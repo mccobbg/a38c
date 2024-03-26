@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 import java.sql.Date;
 
@@ -11,12 +12,13 @@ import java.sql.Date;
 @Table(name="accounts")
 public class Accounts {
 
-	@Column(name = "user_id")
-	private String userId;
-
 	@Id
 	@Column(name="account_number")
 	private long accountNumber;
+
+	@NotNull
+	@Column(name = "user_id")
+	private String userId;
 
 	@Column(name="account_type")
 	private String accountType;
