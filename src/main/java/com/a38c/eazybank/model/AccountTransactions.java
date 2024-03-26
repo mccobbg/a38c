@@ -19,7 +19,7 @@ public class AccountTransactions {
 	private long accountNumber;
 	
 	@Column(name = "user_id")
-	private int userId;
+	private String userId;
 	
 	@Column(name="transaction_date")
 	private Date transactionDt;
@@ -55,11 +55,11 @@ public class AccountTransactions {
 		this.accountNumber = accountNumber;
 	}
 
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 

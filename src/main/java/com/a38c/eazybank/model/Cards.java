@@ -16,7 +16,7 @@ public class Cards {
 	private long id;
 
 	@Column(name = "user_id")
-	private int userId;
+	private String userId;
 
 	@Column(name = "card_number")
 	private String cardNumber;
@@ -47,11 +47,11 @@ public class Cards {
 		this.id = cardId;
 	}
 
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 

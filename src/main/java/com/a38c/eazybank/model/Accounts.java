@@ -12,7 +12,7 @@ import java.sql.Date;
 public class Accounts {
 
 	@Column(name = "user_id")
-	private int userId;
+	private String userId;
 
 	@Id
 	@Column(name="account_number")
@@ -30,10 +30,10 @@ public class Accounts {
 	@Column(name = "updated_at")
 	private Date updatedAt;
 	
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 	public long getAccountNumber() {
