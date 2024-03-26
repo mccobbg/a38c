@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Table(name="user")
 public class User {
 
-    @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
+    @GeneratedValue(strategy= GenerationType.IDENTITY,generator="native")
     @GenericGenerator(name = "native", strategy = "native")
     @Column(name = "id")
     private Long id;

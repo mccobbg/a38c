@@ -10,10 +10,10 @@ import org.hibernate.annotations.GenericGenerator;
 public class Loans {
 	
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO,generator="native")
+	@GeneratedValue(strategy= GenerationType.IDENTITY,generator="native")
 	@GenericGenerator(name = "native",strategy = "native")
 	@Column(name = "loan_number")
-	private int loanNumber;
+	private long loanNumber;
 	
 	@Column(name = "user_id")
 	private String userId;
@@ -39,11 +39,11 @@ public class Loans {
 	@Column(name = "updated_at")
 	private Date updatedAt;
 
-	public int getLoanNumber() {
+	public long getLoanNumber() {
 		return loanNumber;
 	}
 
-	public void setLoanNumber(int loanNumber) {
+	public void setLoanNumber(long loanNumber) {
 		this.loanNumber = loanNumber;
 	}
 
