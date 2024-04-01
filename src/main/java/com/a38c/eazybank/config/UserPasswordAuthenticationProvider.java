@@ -31,7 +31,7 @@ public class UserPasswordAuthenticationProvider implements AuthenticationProvide
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
         String pwd = authentication.getCredentials().toString();
-        List<User> users = userRepository.findByUsername(username);
+        List<User> users = userRepository.findByEmail(username);
         if (users.size() == 0) {
             throw new BadCredentialsException("No user registered with this details!");
         }

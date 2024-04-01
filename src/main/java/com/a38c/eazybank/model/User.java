@@ -3,6 +3,7 @@ package com.a38c.eazybank.model;
 import java.sql.Date;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -10,6 +11,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -23,6 +25,7 @@ import lombok.NoArgsConstructor;
 @Table(name="user")
 public class User {
 
+    @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY,generator="native")
     @GenericGenerator(name = "native", strategy = "native")
     @Column(name = "id")
@@ -50,6 +53,7 @@ public class User {
     @NotBlank
     @NotNull
     @Email
+    @UniqueElements
     private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

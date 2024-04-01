@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 import java.sql.Date;
 
@@ -18,11 +19,13 @@ public class AccountTransactions {
 	@Column(name="account_number")
 	private long accountNumber;
 	
+	@NotNull
 	@Column(name = "user_id")
 	private String userId;
 	
+	@NotNull
 	@Column(name="transaction_date")
-	private Date transactionDt;
+	private Date transactionDate;
 	
 	@Column(name = "transaction_summary")
 	private String transactionSummary;
@@ -63,12 +66,12 @@ public class AccountTransactions {
 		this.userId = userId;
 	}
 
-	public Date getTransactionDt() {
-		return transactionDt;
+	public Date getTransactionDate() {
+		return transactionDate;
 	}
 
-	public void setTransactionDt(Date transactionDt) {
-		this.transactionDt = transactionDt;
+	public void setTransactionDate(Date transactionDt) {
+		this.transactionDate = transactionDt;
 	}
 
 	public String getTransactionSummary() {

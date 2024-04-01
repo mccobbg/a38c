@@ -9,5 +9,7 @@ import com.a38c.eazybank.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    List<User> findByUsername(String username);
+    List<User> findByEmail(String email);
+
+    List<User> findByUserId(String userId);
 }

@@ -6,18 +6,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.a38c.eazybank.model.Accounts;
 import com.a38c.eazybank.repository.AccountsRepository;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 
 @RestController
 @AllArgsConstructor
-public class AccountController {
+public class AccountsController {
 
     private final AccountsRepository accountsRepository;
 
-    @GetMapping("/account")
-    public Accounts getAccountDetails(@RequestParam int id) {
-        Accounts accounts = accountsRepository.findByCustomerId(id);
+    @GetMapping("/accounts")
+    public List<Accounts> getAccounts(@RequestParam String userId) {
+        List<Accounts> accounts = accountsRepository.findByUserId(userId);
         if (accounts != null ) {
             return accounts;
         }else {

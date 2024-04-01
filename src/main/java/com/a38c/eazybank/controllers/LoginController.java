@@ -31,26 +31,6 @@ public class LoginController {
     private final UserRepository userRepository;
     private final Argon2Helper passwordEncoder;
     private final AuthenticationManager authenticationManager;
-    
-    // @GetMapping("/authorities")
-    // public Map<String,Object> getPrincipalInfo(JwtAuthenticationToken principal) {
-        
-    //     Collection<String> authorities = principal.getAuthorities()
-    //       .stream()
-    //       .map(GrantedAuthority::getAuthority)
-    //       .collect(Collectors.toList());
-        
-    //     Map<String,Object> info = new HashMap<>();
-    //     info.put("name", principal.getName());
-    //     info.put("authorities", authorities);
-    //     info.put("tokenAttributes", principal.getTokenAttributes());
-
-    //     if ( principal instanceof AccountToken ) {
-    //       info.put( "account", ((AccountToken)principal).getAccount());
-    //     }
-
-    //     return info;
-    // }
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody User user) {
@@ -99,46 +79,12 @@ public class LoginController {
     }
 
     @RequestMapping("/user")
-    public User getUserDetailsAfterLogin(Authentication authentication) {
-        List<User> users = userRepository.findByUsername(authentication.getName());
+    public User getUser(Authentication authentication) {
+        List<User> users = userRepository.findByEmail(authentication.getName());
         if (users.size() > 0) {
             return users.get(0);
         } else {
             return null;
         }
     }
-
-    // @GetMapping("/authorities")
-    // public Map<String,Object> getPrincipalInfo(JwtAuthenticationToken principal) {
-        
-    //     Collection<String> authorities = principal.getAuthorities()
-    //       .stream()
-    //       .map(GrantedAuthority::getAuthority)
-    //       .collect(Collectors.toList());
-        
-    //     Map<String,Object> info = new HashMap<>();
-    //     info.put("name", principal.getName());
-    //     info.put("authorities", authorities);
-    //     info.put("tokenAttributes", principal.getTokenAttributes());
-
-    //     if ( principal instanceof AccountToken ) {
-    //       info.put( "account", ((AccountToken)principal).getAccount());
-    //     }
-
-    //     return info;
-    // }
-
-    /*
-    @PostMapping("/api/v1/login")
-    public JwtResponseDTO AuthenticateAndGetToken(@RequestBody AuthRequestDTO authRequestDTO){
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequestDTO.getUsername(), authRequestDTO.getPassword()));
-        if(authentication.isAuthenticated()){
-        return JwtResponseDTO.builder()
-                .accessToken(jwtService.GenerateToken(authRequestDTO.getUsername()).build();
-        } else {
-            throw new UsernameNotFoundException("invalid user request..!!");
-        }
-    }
-     */
-    
 }

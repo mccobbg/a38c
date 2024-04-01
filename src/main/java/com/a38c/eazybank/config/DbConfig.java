@@ -18,7 +18,7 @@ import lombok.AllArgsConstructor;
 @Configuration
 @AllArgsConstructor
 @EnableJpaRepositories(basePackages = "com.a38c.eazybank.repository")
-@PropertySource("persistence-sqlite.properties")
+@PropertySource("classpath:persistence.properties")
 public class DbConfig {
 
     private final Environment env;

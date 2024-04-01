@@ -20,7 +20,6 @@
 		<security.oauth.version>2.5.2.RELEASE</security.oauth.version>
 		<oauth2-autoconfigure.version>2.6.8</oauth2-autoconfigure.version>
 		<sqlite-jdbc.version>3.45.2.0</sqlite-jdbc.version>
-		<lombok.version></lombok.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -54,10 +53,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-rest</artifactId>
         </dependency>
-		<!-- <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jdbc</artifactId>
-		</dependency> -->
 		<dependency>
     		<groupId>org.hibernate.validator</groupId>
     		<artifactId>hibernate-validator</artifactId>
@@ -71,6 +66,7 @@
 		<dependency>
 			<groupId>org.hibernate.orm</groupId>
 			<artifactId>hibernate-community-dialects</artifactId>
+			<version>6.5.0.CR1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -79,7 +75,7 @@
 		<dependency> 
 			<groupId>org.projectlombok</groupId> 
 			<artifactId>lombok</artifactId> 
-			<version>1.18.22</version>
+			<version>1.18.32</version>
 			<scope>provided</scope> 
     	</dependency> 
 		<dependency>

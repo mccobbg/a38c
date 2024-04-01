@@ -10,6 +10,6 @@ import com.a38c.eazybank.model.Cards;
 @Repository
 public interface CardsRepository extends CrudRepository<Cards, Long> {
 	
-	List<Cards> findByCustomerId(int customerId);
+	List<Cards> findByUserId(String userId);
 
 }

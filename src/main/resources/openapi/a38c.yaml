@@ -1,0 +1,76 @@
+openapi: 3.1.0
+info:
+  title: A38C Sample
+  version: 1.0
+  description:
+  license:
+    name: MIT
+    url: "https://opensource.org/license/mit/ "
+  contact:
+    name: Gerald McCobb
+servers:
+  - url: https://a38c.com/v1
+  - url: http://localhost/v1
+security:
+  - JWT: []
+paths:
+  /majors:
+    post:
+      summary: Add a major
+      requestBody:
+        content:
+          application/json:
+            $ref: "#/components/schemas/major"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              $ref: "#/components/schemas/major"
+      security:
+        - admin: []
+  /accounts:
+    get:
+      responses:
+        "200":
+          description: OK
+          headers:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  class:
+                    type: string
+                  breakdown:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        major:
+                          type: string
+                        count:
+                          type: integer
+      parameters:
+        - name: class
+          in: query
+          required: true
+          schema:
+            type: string
+            example: "2025"
+      summary:
+  /contact:
+components:
+  securitySchemes:
+    admin:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    major:
+      type: object
+      properties:
+        major:
+          type: string
+          examples:
+            - APIs
