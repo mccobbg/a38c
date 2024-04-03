@@ -3,7 +3,7 @@ package com.a38c.eazybank.model;
 import java.sql.Date;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.validator.constraints.UniqueElements;
+//import org.hibernate.validator.constraints.UniqueElements;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -53,7 +53,7 @@ public class User {
     @NotBlank
     @NotNull
     @Email
-    @UniqueElements
+    // @UniqueElements
     private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

@@ -7,11 +7,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.a38c.eazybank.model.User;
 import com.a38c.eazybank.repository.UserRepository;
-import com.a38c.eazybank.util.Argon2Helper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +20,9 @@ import java.util.List;
 public class UserPasswordAuthenticationProvider implements AuthenticationProvider {
 
     private final UserRepository userRepository;
-    private final Argon2Helper passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserPasswordAuthenticationProvider(UserRepository userRepository, Argon2Helper passwordEncoder) {
+    public UserPasswordAuthenticationProvider(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -38,7 +38,7 @@ public class UserPasswordAuthenticationProvider implements AuthenticationProvide
         User user = users.get(0);
         boolean verified = false;
         try {
-            verified = passwordEncoder.verify(pwd, user.getPassword());
+            verified = passwordEncoder.matches(pwd, user.getPassword());
         } catch (Exception e) {
             throw new BadCredentialsException("Invalid password!");
         }

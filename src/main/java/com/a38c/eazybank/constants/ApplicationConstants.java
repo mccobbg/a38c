@@ -9,4 +9,5 @@ public class ApplicationConstants {
     public static final String ERROR_401_MSG = "Unauthorized access denied";
     public static final String ERROR_403_MSG = "Access forbidden";
     public static final String ERROR_500_MSG = "Internal Server Error";
+    public static final String DATE_FORMAT_STR = "YYYY-MM-DD HH:MM:SS";
 }

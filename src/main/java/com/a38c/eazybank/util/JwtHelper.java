@@ -3,10 +3,15 @@ package com.a38c.eazybank.util;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
+import org.springframework.security.core.GrantedAuthority;
+
 import java.util.ArrayList;
+import java.util.Collection;
 
 import com.a38c.eazybank.constants.SecurityConstants;
 import com.a38c.eazybank.model.User;
+import com.a38c.eazybank.services.UserDetailsImpl;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -23,15 +28,22 @@ public class JwtHelper {
     private static JWTVerifier verifier;
 
     public JwtHelper() {
-        algorithm = Algorithm.HMAC256(SecurityConstants.JWT_KEY);
-        verifier = JWT.require(algorithm)
-          .withIssuer(SecurityConstants.ISSUER)
-          .build();
+        if (algorithm == null) {
+            algorithm = Algorithm.HMAC256(SecurityConstants.JWT_KEY);
+        }
+        if (verifier == null) {
+            verifier = JWT.require(algorithm)
+            .withIssuer(SecurityConstants.ISSUER)
+            .build();
+        }
     }
 
-    public static String createJWT(User user) {
+    public String createJWT(UserDetailsImpl user) {
         List<String> roles = new ArrayList<String>();
-        roles.add(user.getRole());
+        Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
+        for (GrantedAuthority authority : authorities) {
+            roles.add(authority.getAuthority());
+        }
         String jwtToken = JWT.create()
           .withIssuer(SecurityConstants.ISSUER)
           .withSubject(user.getEmail())
@@ -46,7 +58,7 @@ public class JwtHelper {
         return jwtToken;
     }
 
-    public static DecodedJWT verifyJWT(String jwtToken) {
+    public DecodedJWT verifyJWT(String jwtToken) {
         try {
             DecodedJWT decodedJWT = verifier.verify(jwtToken);
             return decodedJWT;
@@ -56,7 +68,7 @@ public class JwtHelper {
         return null;
     }
 
-    public static DecodedJWT decodedJWT(String jwtToken) {
+    public DecodedJWT decodedJWT(String jwtToken) {
         try {
             DecodedJWT decodedJWT = JWT.decode(jwtToken);
             return decodedJWT;
@@ -66,7 +78,7 @@ public class JwtHelper {
         return null;
     }
 
-    public static User parseUser(DecodedJWT decodedJWT) {
+    public User parseUser(DecodedJWT decodedJWT) {
         String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
         String userId = decodedJWT.getClaim("userId").asString();
         String subject = decodedJWT.getSubject();
@@ -77,17 +89,17 @@ public class JwtHelper {
         return u;
     }
 
-    public static String getClaim(DecodedJWT decodedJWT, String claimName) {
+    public String getClaim(DecodedJWT decodedJWT, String claimName) {
         Claim claim = decodedJWT.getClaim(claimName);
         return claim != null ? claim.asString() : null;
     }
 
-    public static boolean isJWTExpired(DecodedJWT decodedJWT) {
+    public boolean isJWTExpired(DecodedJWT decodedJWT) {
         Date expiresAt = decodedJWT.getExpiresAt();
         return expiresAt.getTime() < System.currentTimeMillis();
     }
 
-    public static void main(String args[]) throws InterruptedException {
+    public void main(String args[]) throws InterruptedException {
         new JwtHelper();
 
         User user = new User();
@@ -101,8 +113,9 @@ public class JwtHelper {
         user.setPassword("123465");
         UUID uuid = UUID.randomUUID();
         user.setUserId(uuid.toString());
+        UserDetailsImpl userDetails = UserDetailsImpl.build(user);
 
-        String jwtToken = createJWT(user);
+        String jwtToken = createJWT(userDetails);
         System.out.println("Created JWT : " + jwtToken);
 
         Thread.sleep(1000L);

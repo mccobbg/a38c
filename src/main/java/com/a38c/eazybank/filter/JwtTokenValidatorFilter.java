@@ -9,7 +9,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.AllArgsConstructor;
 
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -21,10 +20,13 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-@AllArgsConstructor
 public class JwtTokenValidatorFilter  extends OncePerRequestFilter {
 
     private final UserService userService;
+
+    public JwtTokenValidatorFilter(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
@@ -36,10 +38,11 @@ public class JwtTokenValidatorFilter  extends OncePerRequestFilter {
                 try {
                     
                     String authToken = header.substring(7);
-                    DecodedJWT decodedJWT = JwtHelper.verifyJWT(authToken);
+                    JwtHelper authHelper = new JwtHelper();
+                    DecodedJWT decodedJWT = authHelper.verifyJWT(authToken);
                     if (decodedJWT != null) {
                         String username = decodedJWT.getSubject();
-                        boolean isExpired = JwtHelper.isJWTExpired(decodedJWT);
+                        boolean isExpired = authHelper.isJWTExpired(decodedJWT);
 
                         if (username != null && !isExpired && SecurityContextHolder.getContext().getAuthentication() == null) {
                             UserDetails userDetails = userService.loadUserByUsername(username);

@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -22,11 +24,11 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.a38c.eazybank.filter.JwtTokenValidatorFilter;
+import com.a38c.eazybank.constants.SecurityConstants;
 import com.a38c.eazybank.filter.CsrfCookieFilter;
 import com.a38c.eazybank.filter.JwtAuthenticationEntryPoint;
 import com.a38c.eazybank.repository.UserRepository;
 import com.a38c.eazybank.services.UserService;
-import com.a38c.eazybank.util.Argon2Helper;
 import com.a38c.eazybank.util.JwtHelper;
 
 import lombok.AllArgsConstructor;
@@ -47,7 +49,7 @@ public class ProjectSecurityConfig {
         CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
         requestHandler.setCsrfRequestAttributeName("_csrf");
         return http
-            .csrf(csrf -> csrf.csrfTokenRequestHandler(requestHandler).ignoringRequestMatchers("/contact","/register")
+            .csrf(csrf -> csrf.csrfTokenRequestHandler(requestHandler).ignoringRequestMatchers("/contact","/register", "/login", "notices")
                             .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
             .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
             .addFilterBefore(new JwtTokenValidatorFilter(userService()), BasicAuthenticationFilter.class)
@@ -57,7 +59,7 @@ public class ProjectSecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> 
                 auth.requestMatchers("/api/auth/**").permitAll()
-                    .requestMatchers("/notices","/contact","/register").permitAll()
+                    .requestMatchers("/notices","/contact","/register", "/login").permitAll()
                     .requestMatchers("/api/test/**").permitAll()
                     .anyRequest().authenticated()
             )
@@ -104,13 +106,17 @@ public class ProjectSecurityConfig {
     }
 
     @Bean
-    public JwtHelper jwtTokenUtil() throws Exception {
+    public JwtHelper jwtHelper() throws Exception {
         return new JwtHelper();
     }
 
     @Bean
-    public Argon2Helper passwordEncoder() {
-        return new Argon2Helper();
+    public PasswordEncoder passwordEncoder() {
+        return new Argon2PasswordEncoder(SecurityConstants.SALT_LENGTH, 
+                                         SecurityConstants.HASH_LENGTH,
+                                         SecurityConstants.PARALLELISM,
+                                         SecurityConstants.MEM_LIMIT,
+                                         SecurityConstants.ITERATIONS);
     }
 
     @Bean
